@@ -10,9 +10,10 @@ export function SocketProvider({ children }) {
   const [liveNotification, setLiveNotification] = useState(null);
 
   useEffect(() => {
-    const socketServerUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? 'http://localhost:5000'
-      : window.location.origin;
+    const socketServerUrl = import.meta.env.VITE_API_BASE_URL ||
+      ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? 'http://localhost:5000'
+        : window.location.origin);
 
     const newSocket = io(socketServerUrl, {
       transports: ['websocket', 'polling'],

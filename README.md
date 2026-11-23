@@ -98,5 +98,50 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
+## 🌐 Deployment (Frontend & Backend)
+
+### Method 1: Unified Full-Stack on Render (Recommended • Free Tier)
+
+Deploy both the backend API and built React frontend together on Render with zero CORS setup:
+
+1. Sign in to **[Render.com](https://dashboard.render.com/)** with your GitHub account.
+2. Click **New +** > **Web Service**.
+3. Select your repository: `students-freelance-`.
+4. Configure the settings:
+   - **Name**: `students-freelance`
+   - **Environment**: `Node`
+   - **Region**: Any (e.g., Oregon or Frankfurt)
+   - **Branch**: `main`
+   - **Build Command**: `npm run build`
+   - **Start Command**: `npm start`
+   - **Plan**: `Free`
+5. Under **Environment Variables**, add:
+   - `NODE_ENV`: `production`
+   - `JWT_SECRET`: *(Click Generate or enter a random secure string)*
+   - `GOOGLE_CLIENT_ID`: *(Optional: your Google OAuth client ID)*
+   - `GOOGLE_CLIENT_SECRET`: *(Optional: your Google OAuth secret)*
+   - `SMTP_USER`: *(Optional: your Gmail/email address)*
+   - `SMTP_PASS`: *(Optional: your Gmail App password)*
+6. Click **Deploy Web Service**.
+7. Render will install dependencies, build the React frontend, seed initial data automatically, and give you a live HTTPS URL (e.g. `https://students-freelance.onrender.com`).
+
+---
+
+### Method 2: Vercel (Frontend) + Render (Backend)
+
+If you prefer hosting the React frontend on Vercel:
+
+1. **Deploy Backend on Render**:
+   - Follow steps above with Root Directory set to `backend`, Build Command: `npm install`, Start Command: `npm start`.
+   - Copy your Render backend URL (e.g. `https://students-freelance-api.onrender.com`).
+2. **Deploy Frontend on Vercel**:
+   - Go to **[vercel.com](https://vercel.com/)** > **Add New Project** > import `students-freelance-`.
+   - Set **Root Directory** to `frontend`.
+   - Under **Environment Variables**, add:
+     - `VITE_API_BASE_URL`: `https://students-freelance-api.onrender.com`
+   - Click **Deploy**.
+
+---
+
 ## 📜 License
 This project is licensed under the MIT License.
