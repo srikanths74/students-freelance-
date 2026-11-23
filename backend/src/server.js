@@ -200,7 +200,7 @@ io.on('connection', (socket) => {
 });
 
 // Serve frontend static files in production
-const frontendDist = path.join(__dirname, '../../frontend/dist');
+const frontendDist = path.resolve(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDist)) {
   console.log(`Serving frontend static build from: ${frontendDist}`);
   app.use(express.static(frontendDist));
