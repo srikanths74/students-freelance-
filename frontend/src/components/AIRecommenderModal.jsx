@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, X, Search, Loader2, ArrowRight, CheckCircle2, UserCheck, Star } from 'lucide-react';
+import { Sparkles, X, Search, Loader2, ArrowRight, CheckCircle2, UserCheck } from 'lucide-react';
 import FreelancerCard from './FreelancerCard';
 
 export default function AIRecommenderModal({ onClose, onSelectFreelancer }) {

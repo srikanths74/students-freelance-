@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Clock, UserCheck, CheckCircle2 } from 'lucide-react';
+import { Clock, UserCheck, CheckCircle2 } from 'lucide-react';
 import { getDesignationInfo } from '../utils/designationImages';
 import { getProfessionalAvatar } from '../utils/defaultAvatars';
 
@@ -120,13 +120,12 @@ export default function ServiceCard({ service, onClick, onProfileClick }) {
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.8rem', fontWeight: 700 }}>
-            <Star size={15} color="var(--accent-amber)" fill="var(--accent-amber)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem' }}>
             {service.rating_avg > 0 ? (
               <>
-                <span>{service.rating_avg.toFixed(1)}</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>{service.rating_avg.toFixed(1)} / 5.0</span>
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-                  ({service.review_count || 0})
+                  ({service.review_count || 0} reviews)
                 </span>
               </>
             ) : (

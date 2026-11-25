@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, UserCheck, CheckCircle, Sparkles, ArrowRight, ShieldCheck, FileText, ExternalLink, Award } from 'lucide-react';
+import { UserCheck, CheckCircle, Sparkles, ArrowRight, ShieldCheck, FileText, ExternalLink, Award } from 'lucide-react';
 import { getDesignationInfo } from '../utils/designationImages';
 import { getProfessionalAvatar } from '../utils/defaultAvatars';
 
@@ -179,7 +179,7 @@ export default function FreelancerCard({ freelancer, aiScore, relevanceReason, m
             marginBottom: '0.85rem',
             border: '1px dashed rgba(99, 102, 241, 0.3)'
           }}>
-            💡 {relevanceReason}
+            {relevanceReason}
           </div>
         )}
 
@@ -231,11 +231,10 @@ export default function FreelancerCard({ freelancer, aiScore, relevanceReason, m
         alignItems: 'center',
         justifyContent: 'space-between'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.85rem', fontWeight: 700 }}>
-          <Star size={15} color="var(--accent-amber)" fill="var(--accent-amber)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.82rem' }}>
           {user.rating_avg > 0 ? (
             <>
-              <span>{user.rating_avg.toFixed(1)}</span>
+              <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>{user.rating_avg.toFixed(1)} / 5.0</span>
               <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                 ({user.review_count || 0} reviews)
               </span>
