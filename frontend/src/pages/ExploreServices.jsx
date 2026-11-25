@@ -35,7 +35,7 @@ export default function ExploreServices({ onNavigate, initialFilters = {} }) {
 
   const [search, setSearch] = useState(getInitialSearch);
   const [selectedCategory, setSelectedCategory] = useState(getInitialCategory);
-  const [maxPrice, setMaxPrice] = useState(5000);
+  const [maxPrice, setMaxPrice] = useState(10000);
   const [minRating, setMinRating] = useState('');
   const [maxDays, setMaxDays] = useState('');
   const [sortBy, setSortBy] = useState('newest');
@@ -156,7 +156,7 @@ export default function ExploreServices({ onNavigate, initialFilters = {} }) {
   const resetFilters = () => {
     setSearch('');
     setSelectedCategory('');
-    setMaxPrice(5000);
+    setMaxPrice(10000);
     setMinRating('');
     setMaxDays('');
     setSortBy('newest');
@@ -288,9 +288,9 @@ export default function ExploreServices({ onNavigate, initialFilters = {} }) {
                   className="select" style={{ fontSize: '0.85rem', padding: '0.45rem 0.75rem' }}
                 >
                   <option value="">Any Rating</option>
-                  <option value="4.8">4.8★ & above (Top Rated)</option>
-                  <option value="4.5">4.5★ & above</option>
-                  <option value="4.0">4.0★ & above</option>
+                  <option value="4.8">4.8 & above (Top Rated)</option>
+                  <option value="4.5">4.5 & above</option>
+                  <option value="4.0">4.0 & above</option>
                 </select>
               </div>
 

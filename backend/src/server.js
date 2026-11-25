@@ -7,7 +7,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 import db from './db/database.js';
-import { seedDatabase } from './db/seed.js';
+import { seedDatabase, ensureSeedData } from './db/seed.js';
 
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -103,11 +103,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Auto-seed if database has no users
-if (!db.data.users || db.data.users.length === 0) {
-  console.log('Database empty on startup. Auto-seeding initial student marketplace data...');
-  seedDatabase();
-}
+// Auto-seed and guarantee active student freelancers, services, and categories exist
+ensureSeedData().catch(err => console.error('Error ensuring seed data on startup:', err));
 
 // API Routes
 app.use('/api/auth', authRoutes);

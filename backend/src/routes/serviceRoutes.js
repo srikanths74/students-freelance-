@@ -1,12 +1,16 @@
 import express from 'express';
 import db from '../db/database.js';
+import { ensureSeedData } from '../db/seed.js';
 import { authenticateToken, optionalAuthenticateToken } from '../middleware/auth.js';
 import { upload } from '../middleware/upload.js';
 
 const router = express.Router();
 
 // Get Categories
-router.get('/categories', (req, res) => {
+router.get('/categories', async (req, res) => {
+  if (!db.data.categories || db.data.categories.length === 0) {
+    await ensureSeedData();
+  }
   const categories = db.getAllCategories();
   return res.json({ success: true, categories });
 });
@@ -30,8 +34,11 @@ router.post('/upload/cover', authenticateToken, upload.single('cover'), (req, re
 });
 
 // Search & Browse Services (with multi-faceted filters)
-router.get('/', optionalAuthenticateToken, (req, res) => {
+router.get('/', optionalAuthenticateToken, async (req, res) => {
   try {
+    if (!db.data.services || db.data.services.length === 0) {
+      await ensureSeedData();
+    }
     const {
       search,
       category_id,

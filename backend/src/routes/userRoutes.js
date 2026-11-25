@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import db from '../db/database.js';
+import { ensureSeedData } from '../db/seed.js';
 import { authenticateToken, optionalAuthenticateToken } from '../middleware/auth.js';
 import { upload } from '../middleware/upload.js';
 import { sendSmsOtp } from '../services/smsService.js';
@@ -8,8 +9,11 @@ import { sendSmsOtp } from '../services/smsService.js';
 const router = express.Router();
 
 // ─── 1. Search & List Freelancers ───────────────────────────────────────────
-router.get('/', optionalAuthenticateToken, (req, res) => {
+router.get('/', optionalAuthenticateToken, async (req, res) => {
   try {
+    if (!db.data.users || db.data.users.filter(u => u.role === 'student').length === 0) {
+      await ensureSeedData();
+    }
     const { role = 'student', search = '', skill = '' } = req.query;
     let users = db.getAllUsers().filter(u => u.is_suspended !== 1);
 
