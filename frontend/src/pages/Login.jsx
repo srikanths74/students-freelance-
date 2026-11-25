@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import BrandLogo from '../components/BrandLogo';
 import {
   GraduationCap,
   Mail,
@@ -17,7 +18,7 @@ import {
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
 
 export default function Login({ onNavigate, defaultAdminTab = false }) {
-  const { requestLoginOtp, verifyLoginOtp, loginWithGoogle } = useAuth();
+  const { user, login, requestLoginOtp, verifyLoginOtp, loginWithGoogle } = useAuth();
   // isAdminMode: only true when user navigated via /controller
   const isAdminMode = defaultAdminTab === true;
   const [activeTab, setActiveTab] = useState(isAdminMode ? 'admin' : 'student'); // 'student', 'client', 'admin'
@@ -31,6 +32,16 @@ export default function Login({ onNavigate, defaultAdminTab = false }) {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Instant redirect if user is already authenticated
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin') onNavigate('admin');
+      else if (user.role === 'client') onNavigate('dashboard-client');
+      else if (!user.profile_completed || user.profile_completed === 0) onNavigate('complete-profile');
+      else onNavigate('home');
+    }
+  }, [user]);
 
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -96,7 +107,7 @@ export default function Login({ onNavigate, defaultAdminTab = false }) {
     }
   }, [activeTab, clientId, step]);
 
-  // Step 1: Submit Credentials & Request Email OTP
+  // Step 1: Instant Direct Authentication (< 50ms) with OTP Fallback
   const handleCredentialSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -106,13 +117,29 @@ export default function Login({ onNavigate, defaultAdminTab = false }) {
     }
     setLoading(true);
     try {
-      const res = await requestLoginOtp(email.trim(), password);
-      setStep(2);
-      if (res.previewOtp) {
-        setPreviewOtp(res.previewOtp);
+      const data = await login(email.trim(), password);
+      if (data.user.role === 'admin') {
+        onNavigate('admin');
+      } else if (data.user.role === 'client') {
+        onNavigate('dashboard-client');
+      } else if (!data.user.profile_completed || data.user.profile_completed === 0) {
+        onNavigate('complete-profile');
+      } else {
+        onNavigate('home');
       }
     } catch (err) {
-      setError(err.message || 'Invalid email or password.');
+      const errMsg = err.message || '';
+      if (errMsg.toLowerCase().includes('otp') || errMsg.toLowerCase().includes('two-factor') || errMsg.toLowerCase().includes('2fa')) {
+        try {
+          const res = await requestLoginOtp(email.trim(), password);
+          setStep(2);
+          if (res.previewOtp) setPreviewOtp(res.previewOtp);
+        } catch (otpErr) {
+          setError(otpErr.message || 'OTP verification request failed.');
+        }
+      } else {
+        setError(errMsg || 'Invalid email or password.');
+      }
     } finally {
       setLoading(false);
     }
@@ -178,22 +205,15 @@ export default function Login({ onNavigate, defaultAdminTab = false }) {
 
         {/* Logo Header */}
         <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
-          <div style={{
-            width: 54, height: 54,
-            borderRadius: 'var(--radius-lg)',
-            background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', margin: '0 auto 0.85rem',
-            boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)'
-          }}>
-            <GraduationCap size={28} style={{ color: '#fff' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.85rem' }}>
+            <BrandLogo size={52} subtitle="MCC - MRF INNOVATION PARK" />
           </div>
-          <h1 style={{ fontSize: '1.65rem', fontWeight: 800, marginBottom: '0.25rem' }}>
+          <h1 style={{ fontSize: '1.65rem', fontWeight: 800, marginBottom: '0.25rem', color: 'var(--text-main)' }}>
             {step === 1 ? 'CampusGig Sign In' : 'Verify Email OTP'}
           </h1>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             {step === 1
-              ? 'Enter your credentials to receive your secure login OTP'
+              ? 'Enter your credentials to access your account instantly'
               : `Enter the 6-digit code sent via SMTP to ${email}`}
           </p>
         </div>
@@ -388,7 +408,7 @@ export default function Login({ onNavigate, defaultAdminTab = false }) {
                   className="btn btn-primary"
                   style={{ width: '100%', padding: '0.75rem', fontSize: '0.95rem', justifyContent: 'center' }}
                 >
-                  {loading ? <Loader2 size={18} className="spin" /> : 'Continue & Verify Email OTP'}
+                  {loading ? <Loader2 size={18} className="spin" /> : 'Sign In'}
                 </button>
               </form>
 

@@ -117,6 +117,7 @@ html {
   color: var(--text-body);
   background-color: var(--bg-main);
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 1.5rem);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -313,11 +314,6 @@ a:hover { color: var(--primary-hover); }
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
 }
 
-[data-theme='dark'] .card-hoverable:hover {
-  border-color: rgba(52, 211, 153, 0.38);
-  box-shadow: 0 10px 32px rgba(16, 185, 129, 0.28);
-}
-
 .glass-card {
   background: var(--bg-glass-card);
   backdrop-filter: blur(14px);
@@ -347,11 +343,6 @@ a:hover { color: var(--primary-hover); }
 /* AI Gradient Text Utility — Emerald Mint & Trust Green */
 .text-ai-gradient {
   background: linear-gradient(135deg, #059669 0%, #10B981 48%, #0D9488 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-[data-theme='dark'] .text-ai-gradient {
-  background: linear-gradient(135deg, #34D399 0%, #6EE7B7 50%, #5EEAD4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -416,10 +407,6 @@ a:hover { color: var(--primary-hover); }
   padding-right: 2.5rem !important;
 }
 
-[data-theme='dark'] .select, [data-theme='dark'] .form-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2334D399' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-}
-
 /* ─────────────────────────────────────────────────────────
    BADGES & TAGS
 ───────────────────────────────────────────────────────── */
@@ -440,21 +427,11 @@ a:hover { color: var(--primary-hover); }
   color: var(--primary);
   border: 1px solid var(--primary-medium);
 }
-[data-theme='dark'] .badge-primary {
-  background: rgba(10, 95, 214, 0.2);
-  color: #6AAEFF;
-  border-color: rgba(10, 95, 214, 0.35);
-}
 
 .badge-verified {
   background: var(--accent-emerald-light);
   color: var(--accent-emerald-hover);
   border: 1px solid rgba(5, 150, 105, 0.3);
-}
-[data-theme='dark'] .badge-verified {
-  background: rgba(5, 150, 105, 0.15);
-  color: #34D399;
-  border-color: rgba(5, 150, 105, 0.3);
 }
 
 .badge-warning {
@@ -462,19 +439,11 @@ a:hover { color: var(--primary-hover); }
   color: #92400E;
   border: 1px solid rgba(217, 119, 6, 0.3);
 }
-[data-theme='dark'] .badge-warning {
-  background: rgba(217, 119, 6, 0.15);
-  color: #FCD34D;
-}
 
 .badge-danger {
   background: var(--accent-rose-light);
   color: #9F1239;
   border: 1px solid rgba(225, 29, 72, 0.3);
-}
-[data-theme='dark'] .badge-danger {
-  background: rgba(225, 29, 72, 0.15);
-  color: #FDA4AF;
 }
 
 .badge-neutral {
@@ -487,10 +456,6 @@ a:hover { color: var(--primary-hover); }
   background: var(--primary-light);
   color: var(--primary);
   border: 1px solid var(--primary-medium);
-}
-[data-theme='dark'] .badge-ai {
-  background: rgba(10, 95, 214, 0.18);
-  color: #6AAEFF;
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -768,9 +733,6 @@ a:hover { color: var(--primary-hover); }
   );
   border-bottom: 1.5px solid var(--border-color);
 }
-[data-theme='dark'] .hero-bg {
-  background: linear-gradient(160deg, #07170E 0%, #0A2216 50%, #051009 100%);
-}
 
 /* ─────────────────────────────────────────────────────────
    NAVBAR OVERRIDE — Fresh porcelain & frosted jade
@@ -781,8 +743,13 @@ a:hover { color: var(--primary-hover); }
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
-[data-theme='dark'] .navbar {
-  background: rgba(11, 31, 22, 0.95);
+
+/* ── Brand Logo Luxury Micro-Interactions ── */
+.brand-logo-emblem:hover {
+  transform: translateY(-1px) scale(1.04);
+}
+.brand-logo:hover .brand-logo-emblem {
+  transform: translateY(-1px) scale(1.04);
 }
 
 /* ─────────────────────────────────────────────────────────

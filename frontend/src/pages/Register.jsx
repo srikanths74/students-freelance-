@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import BrandLogo from '../components/BrandLogo';
 import {
   GraduationCap,
   Briefcase,
@@ -37,7 +38,17 @@ const STEPS = [
 ];
 
 export default function Register({ onNavigate }) {
-  const { requestRegisterOtp, verifyRegisterOtp, loginWithGoogle } = useAuth();
+  const { user, requestRegisterOtp, verifyRegisterOtp, loginWithGoogle } = useAuth();
+
+  // Instant redirect if user is already authenticated
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin') onNavigate('admin');
+      else if (user.role === 'client') onNavigate('dashboard-client');
+      else if (!user.profile_completed || user.profile_completed === 0) onNavigate('complete-profile');
+      else onNavigate('home');
+    }
+  }, [user]);
 
   // Step 1 — credentials
   const [email, setEmail] = useState('');
@@ -235,15 +246,8 @@ export default function Register({ onNavigate }) {
 
         {/* Brand Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{
-            width: 54, height: 54,
-            borderRadius: 'var(--radius-lg)',
-            background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', margin: '0 auto 0.85rem',
-            boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)'
-          }}>
-            <GraduationCap size={28} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.85rem' }}>
+            <BrandLogo size={52} subtitle="MCC - MRF INNOVATION PARK" />
           </div>
           <h1 style={{
             fontSize: '1.85rem',

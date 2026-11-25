@@ -19,6 +19,7 @@ import WalletPage from './pages/WalletPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentProfileSetup from './pages/StudentProfileSetup';
+import BrandLogo from './components/BrandLogo';
 
 import { Bell, X, Loader2, Sparkles } from 'lucide-react';
 
@@ -154,6 +155,21 @@ function MainApp() {
     }
   }, [user, loading, currentPage]);
 
+  // Redirect authenticated users away from login/register to dashboard or home
+  useEffect(() => {
+    if (!loading && user && (currentPage === 'login' || currentPage === 'register')) {
+      const destination = user.role === 'admin'
+        ? 'admin'
+        : user.role === 'client'
+          ? 'dashboard-client'
+          : isStudentIncomplete
+            ? 'complete-profile'
+            : 'home';
+      setRouteState({ page: destination, params: {} });
+      syncUrlWithRoute(destination, {}, true);
+    }
+  }, [user, loading, currentPage, isStudentIncomplete]);
+
   // When an admin logs out while on the admin page, automatically redirect to normal website (home)
   const prevUserRef = useRef(user);
   useEffect(() => {
@@ -189,18 +205,14 @@ function MainApp() {
     return (
       <div style={{
         minHeight: '100vh', display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', gap: '1rem',
+        alignItems: 'center', justifyContent: 'center', gap: '1.25rem',
         background: 'var(--bg-main)', color: 'var(--text-muted)'
       }}>
-        <div style={{
-          width: 52, height: 52,
-          borderRadius: 'var(--radius-lg)',
-          background: 'linear-gradient(135deg, #0A5FD6 0%, #1A7FE8 100%)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff'
-        }}>
-          <Loader2 size={28} className="spin" />
+        <BrandLogo size={52} subtitle="MCC - MRF INNOVATION PARK" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', fontSize: '0.86rem', fontWeight: 600 }}>
+          <Loader2 size={18} className="spin" />
+          <span>Restoring secure session…</span>
         </div>
-        <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Loading CampusGig…</span>
       </div>
     );
   }

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import { useSiteSettings } from '../context/SiteSettingsContext';
+import BrandLogo from './BrandLogo';
 import {
   Sparkles,
   Search,
   Bell,
   Wallet,
+  User,
   UserCheck,
   ShieldAlert,
   Layers,
@@ -102,33 +104,11 @@ export default function Navbar({ onNavigate, currentPage }) {
         }}>
 
           {/* ── Logo ── */}
-          <div
+          <BrandLogo
+            size={36}
+            subtitle={siteSettings?.header_tagline || 'MCC - MRF INNOVATION PARK'}
             onClick={() => onNavigate('home')}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', cursor: 'pointer', flexShrink: 0 }}
-          >
-            <div style={{
-              width: 34, height: 34,
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--ai-gradient)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff',
-              boxShadow: '0 4px 14px var(--primary-glow)',
-              flexShrink: 0
-            }}>
-              <GraduationCap size={19} />
-            </div>
-            <div style={{ lineHeight: 1.15 }}>
-              <span style={{
-                fontSize: '1.1rem', fontWeight: 800, letterSpacing: '-0.03em',
-                background: 'var(--ai-gradient)',
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                whiteSpace: 'nowrap'
-              }}>{siteSettings?.header_brand_title || 'CampusGig'}</span>
-              <span style={{ fontSize: '0.58rem', display: 'block', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.04em' }}>
-                {siteSettings?.header_tagline || 'AI STUDENT MARKETPLACE'}
-              </span>
-            </div>
-          </div>
+          />
 
           {/* ── Search ── */}
           <form
@@ -169,23 +149,27 @@ export default function Navbar({ onNavigate, currentPage }) {
 
             {user && (
               <>
-                <button
-                  onClick={() => onNavigate('dashboard-freelancer')}
-                  className={`btn btn-sm ${currentPage === 'dashboard-freelancer' ? 'btn-primary' : 'btn-secondary'}`}
-                  title="Freelancer Dashboard"
-                >
-                  <Briefcase size={15} />
-                  <span className="nav-label">My Gigs</span>
-                </button>
+                {user.role !== 'client' && (
+                  <button
+                    onClick={() => onNavigate('dashboard-freelancer')}
+                    className={`btn btn-sm ${currentPage === 'dashboard-freelancer' ? 'btn-primary' : 'btn-secondary'}`}
+                    title="Freelancer Dashboard"
+                  >
+                    <Briefcase size={15} />
+                    <span className="nav-label">My Gigs</span>
+                  </button>
+                )}
 
-                <button
-                  onClick={() => onNavigate('dashboard-client')}
-                  className={`btn btn-sm ${currentPage === 'dashboard-client' ? 'btn-primary' : 'btn-secondary'}`}
-                  title="Client Orders"
-                >
-                  <ShoppingBag size={15} />
-                  <span className="nav-label">My Orders</span>
-                </button>
+                {user.role === 'client' && (
+                  <button
+                    onClick={() => onNavigate('dashboard-client')}
+                    className={`btn btn-sm ${currentPage === 'dashboard-client' ? 'btn-primary' : 'btn-secondary'}`}
+                    title="Client Orders"
+                  >
+                    <ShoppingBag size={15} />
+                    <span className="nav-label">My Orders</span>
+                  </button>
+                )}
               </>
             )}
 
@@ -275,33 +259,37 @@ export default function Navbar({ onNavigate, currentPage }) {
 
                 {showUserMenu && (
                   <div className="card" style={{
-                    position: 'absolute', right: 0, top: 44,
-                    width: 220, padding: '0.65rem', zIndex: 950,
-                    boxShadow: 'var(--shadow-xl)'
+                    position: 'absolute', right: 0, top: 'calc(100% + 8px)',
+                    width: 230, padding: '0.75rem', zIndex: 950,
+                    boxShadow: 'var(--shadow-xl)',
+                    borderRadius: 'var(--radius-lg)',
+                    border: '1.5px solid var(--border-color)',
+                    background: 'var(--bg-surface)'
                   }}>
                     <div style={{ paddingBottom: '0.5rem', borderBottom: '1px solid var(--border-color)', marginBottom: '0.5rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{user.name}</span>
+                        <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-main)' }}>{user.name}</span>
                         {user.is_verified_student === 1 && (
                           <UserCheck size={14} color="var(--accent-emerald)" title="Verified Campus Student" />
                         )}
                       </div>
                       <div style={{ fontSize: '0.73rem', color: 'var(--text-muted)' }}>{user.email}</div>
-                      <div style={{ fontSize: '0.73rem', color: 'var(--text-muted)' }}>{user.college}</div>
+                      <div style={{ fontSize: '0.73rem', color: 'var(--text-muted)', fontWeight: 500 }}>{user.college}</div>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                       <button
                         onClick={() => { setShowUserMenu(false); onNavigate('profile', { userId: user.id }); }}
                         className="btn btn-sm btn-secondary"
-                        style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent', fontSize: '0.82rem' }}
+                        style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent', fontSize: '0.82rem', gap: '0.45rem' }}
                       >
-                        🎓 My Profile
+                        <User size={14} style={{ color: 'var(--primary)' }} />
+                        <span>My Profile</span>
                       </button>
                       <button
                         onClick={() => { setShowUserMenu(false); setShowEditProfileModal(true); }}
                         className="btn btn-sm btn-secondary"
-                        style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent', fontSize: '0.82rem', gap: '0.4rem' }}
+                        style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent', fontSize: '0.82rem', gap: '0.45rem' }}
                       >
                         <Edit3 size={13} style={{ color: 'var(--primary)' }} />
                         <span>Edit Profile</span>
@@ -310,16 +298,17 @@ export default function Navbar({ onNavigate, currentPage }) {
                         <button
                           onClick={() => { setShowUserMenu(false); setShowAdminSupport(true); }}
                           className="btn btn-sm btn-secondary"
-                          style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent', fontSize: '0.82rem' }}
+                          style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent', fontSize: '0.82rem', gap: '0.45rem' }}
                         >
-                          💬 Chat with Admin Support
+                          <MessageSquare size={14} style={{ color: 'var(--primary)' }} />
+                          <span>Chat with Admin Support</span>
                         </button>
                       )}
                       {isAdmin && (
                         <button
                           onClick={() => { setShowUserMenu(false); onNavigate('admin'); }}
                           className="btn btn-sm btn-danger"
-                          style={{ justifyContent: 'flex-start', fontSize: '0.82rem', marginBottom: '0.2rem' }}
+                          style={{ justifyContent: 'flex-start', fontSize: '0.82rem', marginBottom: '0.2rem', gap: '0.45rem' }}
                         >
                           <ShieldAlert size={14} />
                           <span>Admin Control Center</span>
@@ -332,7 +321,7 @@ export default function Navbar({ onNavigate, currentPage }) {
                           onNavigate('home');
                         }}
                         className="btn btn-sm btn-danger"
-                        style={{ justifyContent: 'flex-start', marginTop: '0.4rem', fontSize: '0.82rem' }}
+                        style={{ justifyContent: 'flex-start', marginTop: '0.4rem', fontSize: '0.82rem', gap: '0.45rem' }}
                       >
                         <LogOut size={13} />
                         <span>Sign Out</span>

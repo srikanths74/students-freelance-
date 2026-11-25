@@ -1,6 +1,7 @@
 import React from 'react';
-import { GraduationCap, ShieldCheck, Sparkles, MapPin, Mail, Building2, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Sparkles, MapPin, Mail, Building2, CheckCircle2 } from 'lucide-react';
 import { useSiteSettings } from '../context/SiteSettingsContext';
+import BrandLogo from './BrandLogo';
 
 export default function Footer({ onNavigate }) {
   const { siteSettings } = useSiteSettings();
@@ -23,23 +24,8 @@ export default function Footer({ onNavigate }) {
           
           {/* Col 1: Brand & Overview */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.85rem' }}>
-              <div style={{
-                width: 34,
-                height: 34,
-                borderRadius: 'var(--radius-md)',
-                background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                boxShadow: 'var(--shadow-sm)'
-              }}>
-                <GraduationCap size={18} />
-              </div>
-              <span style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
-                {siteSettings?.header_brand_title || 'CampusGig'}
-              </span>
+            <div style={{ marginBottom: '0.85rem' }}>
+              <BrandLogo size={32} subtitle="MCC - MRF INNOVATION PARK" onClick={() => onNavigate('home')} />
             </div>
             <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1rem' }}>
               {siteSettings?.footer_about_text || 'The premier student freelance marketplace connecting verified university talent with campus and client projects.'}
