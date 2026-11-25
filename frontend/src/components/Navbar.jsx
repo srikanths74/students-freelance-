@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import { useSocket } from '../context/SocketContext';
 import { useSiteSettings } from '../context/SiteSettingsContext';
 import {
@@ -8,8 +7,6 @@ import {
   Search,
   Bell,
   Wallet,
-  Sun,
-  Moon,
   UserCheck,
   ShieldAlert,
   Layers,
@@ -30,7 +27,6 @@ import { getProfessionalAvatar } from '../utils/defaultAvatars';
 
 export default function Navbar({ onNavigate, currentPage }) {
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const { liveNotification } = useSocket();
   const { siteSettings } = useSiteSettings();
 
@@ -253,16 +249,6 @@ export default function Navbar({ onNavigate, currentPage }) {
                 <NotificationDropdown onClose={() => setShowNotifs(false)} onNavigate={onNavigate} />
               )}
             </div>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="btn btn-sm btn-secondary"
-              style={{ width: 34, height: 34, padding: 0, borderRadius: '50%' }}
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-            </button>
 
             {/* User Avatar or Auth Buttons */}
             {user ? (

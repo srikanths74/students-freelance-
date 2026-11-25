@@ -7,7 +7,6 @@ import {
   ArrowRight,
   ShieldCheck,
   Zap,
-  Star,
   Users,
   Briefcase,
   Layers,

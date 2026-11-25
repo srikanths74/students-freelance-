@@ -767,8 +767,8 @@ export default function DashboardFreelancer({ onNavigate }) {
                 {reviews.length > 0 ? (
                   <>
                     <span>{(reviews.reduce((sum, r) => sum + r.overall_rating, 0) / reviews.length).toFixed(1)}</span>
-                    <span style={{ fontSize: '1rem', color: 'var(--accent-amber)' }}>⭐</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>({reviews.length})</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>/ 5.0</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>({reviews.length} reviews)</span>
                   </>
                 ) : (
                   <span style={{ fontSize: '0.92rem', color: 'var(--text-muted)', fontWeight: 600 }}>New (0 reviews)</span>

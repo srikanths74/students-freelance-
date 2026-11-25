@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Star, X, Check, Loader2, Sparkles, Heart } from 'lucide-react';
+import { Star, X, Check, Loader2, Sparkles } from 'lucide-react';
 
 export default function ReviewModal({ project, onClose, onReviewSubmitted }) {
   const [overall, setOverall] = useState(5);

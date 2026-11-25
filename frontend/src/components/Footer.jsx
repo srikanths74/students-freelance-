@@ -1,88 +1,126 @@
 import React from 'react';
-import { GraduationCap, ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import { GraduationCap, ShieldCheck, Sparkles, MapPin, Mail, Building2, CheckCircle2 } from 'lucide-react';
 import { useSiteSettings } from '../context/SiteSettingsContext';
 
 export default function Footer({ onNavigate }) {
   const { siteSettings } = useSiteSettings();
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer style={{
       background: 'var(--bg-surface)',
       borderTop: '1px solid var(--border-color)',
-      padding: '2.5rem 0 1.75rem',
+      padding: '3rem 0 1.75rem',
       marginTop: 'auto'
     }}>
       <div className="container">
-        <div className="grid-4" style={{ marginBottom: '2rem' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '2.5rem',
+          marginBottom: '2.5rem'
+        }}>
           
-          {/* Col 1: Brand */}
+          {/* Col 1: Brand & Overview */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.65rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.85rem' }}>
               <div style={{
-                width: 30,
-                height: 30,
+                width: 34,
+                height: 34,
                 borderRadius: 'var(--radius-md)',
-                background: 'linear-gradient(135deg, #0A5FD6 0%, #1A7FE8 100%)',
+                background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#fff'
+                color: '#fff',
+                boxShadow: 'var(--shadow-sm)'
               }}>
-                <GraduationCap size={16} />
+                <GraduationCap size={18} />
               </div>
-              <span style={{ fontSize: '1.1rem', fontWeight: 800 }}>
+              <span style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
                 {siteSettings?.header_brand_title || 'CampusGig'}
               </span>
             </div>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
-              {siteSettings?.footer_about_text || 'The student marketplace to find campus freelance help, build skills, and earn money.'}
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1rem' }}>
+              {siteSettings?.footer_about_text || 'The premier student freelance marketplace connecting verified university talent with campus and client projects.'}
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.78rem', color: 'var(--primary)', fontWeight: 600, background: 'var(--primary-light)', padding: '0.35rem 0.65rem', borderRadius: 'var(--radius-sm)' }}>
               <ShieldCheck size={15} />
-              <span>Safe Escrow Payments Active</span>
+              <span>{siteSettings?.footer_trust_badge || 'Verified Student Platform'}</span>
             </div>
           </div>
 
-          {/* Col 2: Categories */}
+          {/* Col 2: Popular Services */}
           <div>
-            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.75rem' }}>Popular Services</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 1 }); }}>Web & App Development</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 2 }); }}>Posters & Graphic Design</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 3 }); }}>UI/UX Design</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 5 }); }}>Video Editing & Reels</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 7 }); }}>Peer Tutoring</a>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Popular Services
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.84rem' }}>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 1 }); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }} className="hover-underline">Web & App Development</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 2 }); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }} className="hover-underline">Graphic & Brand Design</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 3 }); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }} className="hover-underline">UI/UX Design & Prototyping</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 5 }); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }} className="hover-underline">Video Editing & Media</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('explore', { category: 7 }); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }} className="hover-underline">Academic & Technical Tutoring</a>
             </div>
           </div>
 
-          {/* Col 3: Student Tools */}
+          {/* Col 3: Platform Standards */}
           <div>
-            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.75rem' }}>Features</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--primary)', fontWeight: 600 }}>
-                <Sparkles size={13} />
-                <span>AI Freelancer Match</span>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Platform Standards
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.84rem', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: 'var(--primary)', fontWeight: 600 }}>
+                <Sparkles size={14} />
+                <span>AI Skill Matching</span>
               </div>
-              <span>Safe Escrow Wallet</span>
-              <span>Project Chat & Files</span>
-              <span>Verified Student Badges</span>
-              <span>Reviews & Ratings</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <CheckCircle2 size={14} style={{ color: 'var(--primary)' }} />
+                <span>Escrow Payment Protection</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <CheckCircle2 size={14} style={{ color: 'var(--primary)' }} />
+                <span>Verified Student Credentials</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <CheckCircle2 size={14} style={{ color: 'var(--primary)' }} />
+                <span>Real-Time Project Workspace</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <CheckCircle2 size={14} style={{ color: 'var(--primary)' }} />
+                <span>Transparent Ratings & Reviews</span>
+              </div>
             </div>
           </div>
 
-          {/* Col 4: Trust & Safety */}
+          {/* Col 4: Innovation Park & Location */}
           <div>
-            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, marginBottom: '0.75rem' }}>Trust & Safety</h4>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
-              Your money is safe in escrow until you inspect and approve the project.
-            </p>
-            <div className="badge badge-neutral" style={{ fontSize: '0.72rem', padding: '0.35rem 0.65rem' }}>
-              {siteSettings?.footer_trust_badge || '🎓 Safe Student Platform'}
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <Building2 size={16} style={{ color: 'var(--primary)' }} />
+              <span>MCC - MRF Innovation Park</span>
+            </h4>
+            <div style={{ display: 'flex', gap: '0.6rem', fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.55, marginBottom: '0.85rem' }}>
+              <MapPin size={18} style={{ flexShrink: 0, marginTop: '2px', color: 'var(--primary)' }} />
+              <div>
+                <strong style={{ color: 'var(--text-main)' }}>Madras Christian College (MCC)</strong><br />
+                Velachery Main Road, East Tambaram,<br />
+                Chennai - 600 059, Tamil Nadu, India
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              <Mail size={14} style={{ color: 'var(--primary)' }} />
+              <a
+                href={`mailto:${siteSettings?.support_email || 'srikanthstephen2007@gmail.com'}`}
+                style={{ color: 'inherit', textDecoration: 'none' }}
+              >
+                {siteSettings?.support_email || 'srikanthstephen2007@gmail.com'}
+              </a>
             </div>
           </div>
 
         </div>
 
+        {/* Bottom Professional Copyright Bar */}
         <div style={{
           borderTop: '1px solid var(--border-color)',
           paddingTop: '1.25rem',
@@ -90,13 +128,15 @@ export default function Footer({ onNavigate }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '0.75rem',
-          fontSize: '0.78rem',
+          gap: '1rem',
+          fontSize: '0.8rem',
           color: 'var(--text-muted)'
         }}>
-          <div>{siteSettings?.footer_copyright_text || `© ${new Date().getFullYear()} CampusGig • Student Freelance Marketplace`}</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            <span>{siteSettings?.footer_love_text || 'Made with ❤️ for college students'}</span>
+          <div>
+            {siteSettings?.footer_copyright_text || `© ${currentYear} CampusGig. All rights reserved.`}
+          </div>
+          <div style={{ fontWeight: 600, color: 'var(--text-body)' }}>
+            {siteSettings?.footer_love_text || 'Incubated at MCC - MRF Innovation Park • Madras Christian College'}
           </div>
         </div>
       </div>

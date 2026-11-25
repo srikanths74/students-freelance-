@@ -1,21 +1,24 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(localStorage.getItem('campusgig_theme') || 'dark');
-
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('campusgig_theme', theme);
-  }, [theme]);
+    // Force light mode permanently across the entire application
+    document.documentElement.setAttribute('data-theme', 'light');
+    try {
+      localStorage.setItem('campusgig_theme', 'light');
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    // Dark mode disabled; locked to clean light mode
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: 'light', toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -24,4 +27,5 @@ export function ThemeProvider({ children }) {
 export function useTheme() {
   return useContext(ThemeContext);
 }
+
 export default ThemeContext;

@@ -141,10 +141,10 @@ export default function AdminDashboard({ onNavigate, targetUserId }) {
     card_4_desc: "Release payment to the student's wallet and leave a quality review.",
     cta_banner_title: 'Want to Earn Money on Campus?',
     cta_banner_desc: 'Offer your skills, get hired by fellow students, and build your portfolio.',
-    footer_about_text: 'The student marketplace to find campus freelance help, build skills, and earn money.',
-    footer_trust_badge: '🎓 Safe Student Platform',
-    footer_copyright_text: '© 2026 CampusGig • Student Freelance Marketplace',
-    footer_love_text: 'Made with ❤️ for college students',
+    footer_about_text: 'The premier student freelance marketplace connecting verified university talent with campus and client projects.',
+    footer_trust_badge: 'Verified Student Platform',
+    footer_copyright_text: '© 2026 CampusGig. All rights reserved.',
+    footer_love_text: 'Incubated at MCC - MRF Innovation Park • Madras Christian College',
     platform_commission_percent: 5,
     minimum_budget_inr: 200,
     support_email: 'srikanthstephen2007@gmail.com'
@@ -1598,13 +1598,13 @@ export default function AdminDashboard({ onNavigate, targetUserId }) {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label" style={{ fontWeight: 700 }}>Footer Tagline / Love Note</label>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Footer Affiliation / Tagline</label>
                     <input
                       type="text"
                       className="input"
                       value={cmsForm.footer_love_text || ''}
                       onChange={(e) => setCmsForm({ ...cmsForm, footer_love_text: e.target.value })}
-                      placeholder="Made with ❤️ for college students"
+                      placeholder="Incubated at MCC - MRF Innovation Park • Madras Christian College"
                     />
                   </div>
                 </div>

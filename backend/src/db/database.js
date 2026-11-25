@@ -31,10 +31,10 @@ export const defaultSiteSettings = {
   card_4_desc: "Release payment to the student's wallet and leave a quality review.",
   cta_banner_title: 'Want to Earn Money on Campus?',
   cta_banner_desc: 'Offer your skills, get hired by fellow students, and build your portfolio.',
-  footer_about_text: 'The student marketplace to find campus freelance help, build skills, and earn money.',
-  footer_trust_badge: '🎓 Safe Student Platform',
-  footer_copyright_text: '© 2026 CampusGig • Student Freelance Marketplace',
-  footer_love_text: 'Made with ❤️ for college students',
+  footer_about_text: 'The premier student freelance marketplace connecting verified university talent with campus and client projects.',
+  footer_trust_badge: 'Verified Student Platform',
+  footer_copyright_text: '© 2026 CampusGig. All rights reserved.',
+  footer_love_text: 'Incubated at MCC - MRF Innovation Park • Madras Christian College',
   platform_commission_percent: 5,
   minimum_budget_inr: 200,
   support_email: 'srikanthstephen2007@gmail.com'
@@ -1408,6 +1408,17 @@ class RelationalDatabase {
   getSiteSettings() {
     if (!this.data.site_settings || Object.keys(this.data.site_settings).length === 0) {
       this.data.site_settings = { ...defaultSiteSettings };
+      this.save();
+    }
+    // Upgrade legacy informal footer settings
+    if (!this.data.site_settings.footer_love_text ||
+        this.data.site_settings.footer_love_text.includes('Made with') ||
+        this.data.site_settings.footer_love_text.includes('❤️') ||
+        !this.data.site_settings.footer_love_text.includes('MCC')) {
+      this.data.site_settings.footer_love_text = defaultSiteSettings.footer_love_text;
+      this.data.site_settings.footer_trust_badge = defaultSiteSettings.footer_trust_badge;
+      this.data.site_settings.footer_copyright_text = defaultSiteSettings.footer_copyright_text;
+      this.data.site_settings.footer_about_text = defaultSiteSettings.footer_about_text;
       this.save();
     }
     return this.data.site_settings;
